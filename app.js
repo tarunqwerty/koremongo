@@ -3,7 +3,8 @@ const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 
 const app = express();
-const port = 3000; // Port where the API will be hosted
+// Use the port from Render's environment variable, or fallback to 3000 for local testing
+const port = process.env.PORT || 3000;
 
 // MongoDB Atlas connection string
 const uri = "mongodb+srv://tarunyadav3050:24xl9YS4VlThE6Ca@cluster0.pso705z.mongodb.net/myDB?retryWrites=true&w=majority";
