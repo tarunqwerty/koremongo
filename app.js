@@ -42,6 +42,32 @@ app.post('/submit', async (req, res) => {
   }
 });
 
+// GET API to fetch data based on phone number
+app.get('/fetch', async (req, res) => {
+  try {
+    const { phone } = req.query;
+
+    if (!phone) {
+      return res.status(400).send('Phone number is required');
+    }
+
+    const database = client.db('myDB'); // Database name
+    const collection = database.collection('userDetails'); // Collection name
+
+    // Fetch the data from MongoDB
+    const user = await collection.findOne({ phone });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User fetched successfully', user });
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ message: 'Internal server error', error });
+  }
+});
+
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
